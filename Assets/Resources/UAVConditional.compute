@@ -1,0 +1,32 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel UVABugTest
+
+globallycoherent RWStructuredBuffer<int> Conditinal_RW;
+RWTexture2D<float4>                      ResultTexture_RW;
+[numthreads(64,1,1)]
+void UVABugTest(uint  id : SV_DispatchThreadID)
+{
+    uint w, h;
+    ResultTexture_RW.GetDimensions(w, h);
+    
+    const int KCount = 1000;
+    int n = 0;
+    while (n++ < KCount && Conditinal_RW[0]>0)
+    {
+        if (id == 0 && n == 100)
+        {
+            Conditinal_RW[0] = 0;
+        }
+    }
+    //if UAV conditinal works,texture should be GREEN or else be RED
+    if (n < KCount / 2)
+    {
+        //green
+        ResultTexture_RW[int2(id % w, id / h)] = float4(0, 1, 0, 1);
+    }
+    else
+    {
+        //red
+        ResultTexture_RW[int2(id % w, id / h)] = float4(1, 0, 0, 1);
+    }
+}
