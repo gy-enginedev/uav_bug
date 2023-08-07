@@ -20,15 +20,15 @@ void UVABugTest(uint  id : SV_DispatchThreadID)
             Conditinal_RW[0] = 0;
        }
     }
-    //if UAV conditinal works,texture should be GREEN or else be RED
+    //if UAV conditional works,texture should be GREEN or else be RED
     if (n < 200)
     {
         //green
-        ResultTexture_RW[int2(id % w, id / h)] = float4(0, 1, 0, 1);
+        ResultTexture_RW[int2(id % w, id / w)] = float4(0, 1, 0, 1);
     }
     else
     {
         //red
-        ResultTexture_RW[int2(id % w, id / h)] = float4(1, 0, 0, 1);
+        ResultTexture_RW[int2(id % w, id / w)] = float4(1, 0, 0, 1);
     }
 }
