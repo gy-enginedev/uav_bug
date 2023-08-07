@@ -11,6 +11,7 @@ void UVABugTest(uint  id : SV_DispatchThreadID)
     
     const int KCount = 1000;
     int n = 0;
+    [loop][allow_uav_condition]
     while (n++ < KCount && Conditinal_RW[0]>0)
     {
         if (id == 0 && n == 100)
